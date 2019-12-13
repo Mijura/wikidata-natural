@@ -1,7 +1,5 @@
 "use strict";
-
-var Client = require('node-rest-client').Client;
-var httpClient = new Client();
+const request = require('request');
 
 var queryBuilder = require('./../sparqlConstants');
 var QuestionParser = require('./QuestionParser');
@@ -36,8 +34,17 @@ class DynamicQuestionAnswerer {
         conversationHistory.addInterpretation(wikidataEntity, wikidataProperty, self.interpretationString, self.questionId);
 
         var query = queryBuilder.genercicSingleStatement(wikidataEntity.id, wikidataProperty.id);
+        
+        const options = {
+            url: query,
+            headers : { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
+          };
 
-        httpClient.get(query, self.onQueryResult).on('error', self.onQueryError);
+        request(options,  (err, res, body) => {
+            if (err) { return self.onQueryError(err); }
+            
+            self.onQueryResult(body);
+        });
     }
 
     onQueryError(err) {
@@ -66,7 +73,6 @@ class DynamicQuestionAnswerer {
         conversationHistory.addAnswer(data.answer, self.questionId);
         conversationHistory.addAnswerEntity(data.answerEntity, self.questionId);
 
-        console.log(data);
         self.callback(data);
     }
 

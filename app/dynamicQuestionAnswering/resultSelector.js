@@ -16,7 +16,6 @@ exports.filter = function(queryResultRaw, wikidataProperty, specifier) {
 };
 
 function selectByYear(queryResults, specifiedYear) {
-	var answerFound = false;
     var nearestYearIndex;
     var parsedYear = (new Date(specifiedYear)).getFullYear();
     if (parsedYear < queryResults[0]['year'].value) {

@@ -2,10 +2,10 @@ from flask import Flask, request
 import spacy
 import json
 import sys
-from spacy.en import English
+
 
 print("loading language model...", flush=True, end=" ")
-parseEnglish = English()
+parseEnglish = spacy.load('en')
 print("done.", flush=True)
 
 PROPAGATE_EXCEPTIONS = True
