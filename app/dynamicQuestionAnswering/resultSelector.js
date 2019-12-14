@@ -5,6 +5,9 @@ var decoder = new StringDecoder('utf8');
 
 exports.filter = function(queryResultRaw, wikidataProperty, specifier) {
     var queryResults = JSON.parse(decoder.write(queryResultRaw)).results.bindings;
+    
+    if (queryResults.length==0)
+        return queryResults
 
     if (specifier.type == 'DATE') {
         return selectByYear(queryResults, specifier.value);
