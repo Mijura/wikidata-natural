@@ -15,7 +15,7 @@ exports.findWikidataEntity = function(taggedWords, questionId, onEntityDetected,
 
     wikidataIdLookup.getWikidataId({searchText: namedEntity.string.trim()}, function(err, data) {
         if (err) {
-            returnHistoryEntityInstead(onWikidataEntityFound, questionId, onEntityDetected, taggedWords);
+            returnHistoryEntityInstead(onWikidataEntityFound, onEntityDetected, questionId, taggedWords);
             return;
         }
 
